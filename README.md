@@ -15,6 +15,8 @@ The system goes beyond just detection — it evaluates defect severity and makes
 - Pandas
 - Matplotlib
 - SQLite
+- FastAPI
+- Streamlit
 - Google Colab (T4 GPU)
 
   
@@ -87,9 +89,95 @@ Severity Classification
    REJECT ──→ Reject Signal + Log
    FLAG   ──→ Human Re-check + Log
       ↓
-SQLite Database 
+SQLite Database
+      ↓
+Dashboard (Streamlit) + API (FastAPI)
 ```
 ---
+## FastAPI Backend
+The system exposes a REST API for integration:
+### 1.Health Check
+```
+GET /health
+```
+### 2.Inspect Image
+```
+POST /inspect
+```
+**Input** - Image File
+**Output**
+```
+{
+  "detections": [
+    {
+      "defect": "inclusion",
+      "confidence": 0.757,
+      "bbox": [
+        86,
+        106,
+        178,
+        579
+      ],
+      "decision": "REJECT"
+    },
+    {
+      "defect": "inclusion",
+      "confidence": 0.669,
+      "bbox": [
+        423,
+        371,
+        501,
+        640
+      ],
+      "decision": "FLAG"
+    }
+  ],
+  "overall_decision": "REJECT",
+  "total_defects": 3,
+  "inference_time_ms": 971.5
+}
+```
+### 3.Inspection Statistics
+```
+GET /stats
+```
+**Response**
+```
+{
+  "total_inspections": 137,
+  "rejects": 24,
+  "flags": 113,
+  "pass": 0,
+  "avg_confidence": 0.736,
+  "defect_rate_%": 17.5,
+  "by_defect_type": {
+    "scratches": 37,
+    "patches": 33,
+    "rolled-in_scale": 32,
+    "inclusion": 25,
+    "pitted_surface": 10
+  }
+}
+```
+
+## Analytics Dashboard (Streamlit)
+A real-time analytics dashboard built using Streamlit to monitor inspection performance, visualize defect trends, and analyze quality metrics.
+
+### Dashboard Features
+**KPI Metrices**
+- Total detections
+- Rejected parts
+- Flagged parts
+- Average confidence
+
+**Visualisations**
+- Defect type distribution (bar chart)
+- Decision breakdown (pie chart)
+- Average confidence per defect
+
+**Inspection Logs**
+- Latest inspection entries
+- Rejected parts tracking
 
 ## Training Results
 
