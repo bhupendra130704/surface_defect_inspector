@@ -187,6 +187,11 @@ A real-time analytics dashboard built using Streamlit to monitor inspection perf
 
 ---
 
+## Dashboard Interface
+
+![](demo_outputs/dashboard_ss1.png)
+![](demo_outputs/dashboard_ss2.png)
+
 ## Dataset
 
 [NEU Surface Defect Dataset](https://universe.roboflow.com) — 
